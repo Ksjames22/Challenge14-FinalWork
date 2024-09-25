@@ -1,14 +1,16 @@
-// Import the Sequelize constructor from the library
 const Sequelize = require('sequelize');
-
 require('dotenv').config();
 
-// Create connection to database, pass in postgres information for username and password
 let sequelize;
 
-if (process.env.JAWSDB_URL) {
-  sequelize = new Sequelize(process.env.JAWSDB_URL);
+if (process.env.DATABASE_URL) {
+  // Use the remote database URL
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'postgres',
+    logging: false // Optional: Disable logging for cleaner output
+  });
 } else {
+  // Fallback to local configuration (for local development)
   sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PW, {
     host: 'localhost',
     dialect: 'postgres',
